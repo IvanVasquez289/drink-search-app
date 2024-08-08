@@ -6,7 +6,7 @@ const Header = () => {
   const {pathname} = useLocation()
   const isHome = useMemo(() => pathname === '/', [pathname])
   return (
-    <header className="bg-slate-800">
+    <header className={isHome ? 'bg-header bg-cover bg-center' : 'bg-slate-800'}>
         <div className="mx-auto container px-5 py-10">
             <div className="flex justify-between items-center">
                 <div>

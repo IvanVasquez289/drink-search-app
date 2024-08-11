@@ -1,10 +1,12 @@
 import { useMemo } from "react"
 import { NavLink, useLocation } from "react-router-dom"
 import Search from "./Search"
+import { useAppStore } from "../stores/useAppStore"
 
 const Header = () => {
   const {pathname} = useLocation()
   const isHome = useMemo(() => pathname === '/', [pathname])
+  useAppStore(state => state.categories)
   return (
     <header className={isHome ? 'bg-header bg-cover bg-center' : 'bg-slate-800'}>
         <div className="mx-auto container px-5 py-10">

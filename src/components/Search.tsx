@@ -1,5 +1,7 @@
+import { useAppStore } from "../stores/useAppStore"
 
 const Search = () => {
+  const {drinks} = useAppStore(state => state.categories)
   return (
     <form className="md:w-1/2 2xl:w-1/3 bg-orange-400 p-5 rounded-md shadow-xl space-y-6 my-32">
         <div className="flex flex-col space-y-2">
@@ -30,6 +32,11 @@ const Search = () => {
                 className="p-2 rounded-md focus:outline-none"
             >
                 <option value="">-- Selecciona --</option>
+                {drinks.map(category => (
+                    <option value={category.strCategory} key={category.strCategory}>
+                        {category.strCategory}
+                    </option>
+                ))}
             </select>
         </div>
        <input 

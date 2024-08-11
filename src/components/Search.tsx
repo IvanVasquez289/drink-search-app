@@ -1,9 +1,39 @@
+import { useState } from "react"
 import { useAppStore } from "../stores/useAppStore"
+import Alert from "./Alert"
 
 const Search = () => {
-  const {drinks} = useAppStore(state => state.categories)
+    const [searchFilters, setSearchFilters] = useState({
+        ingridient: '',
+        category: ''
+    })
+    const [error, setError] = useState(false)
+    const {drinks} = useAppStore(state => state.categories)
+    const fetchRecipes = useAppStore(state => state.fetchRecipes)
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        setSearchFilters({
+            ...searchFilters,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        if(searchFilters.ingridient.trim() === '' && searchFilters.category.trim() === '') {
+            setError(true)
+            return
+        }
+
+        fetchRecipes(searchFilters)
+    }
+
   return (
-    <form className="md:w-1/2 2xl:w-1/3 bg-orange-400 p-5 rounded-md shadow-xl space-y-6 my-32">
+    <form 
+        className="md:w-1/2 2xl:w-1/3 bg-orange-400 p-5 rounded-md shadow-xl space-y-6 my-32"
+        onSubmit={handleSubmit}
+    >
+        {error && <Alert>Por favor llena todos los campos</Alert>}
         <div className="flex flex-col space-y-2">
             <label 
                 htmlFor="ingridient"
@@ -17,6 +47,9 @@ const Search = () => {
                 id="ingridient"
                 className="p-2 rounded-md focus:outline-none"
                 placeholder="Nombre o ingrediente. Ej. Vodka, Tequila, etc."
+                onChange={handleChange}
+                value={searchFilters.ingridient}
+
             />
         </div>
         <div className="flex flex-col space-y-2">
@@ -30,6 +63,8 @@ const Search = () => {
                 name="category"
                 id="category"
                 className="p-2 rounded-md focus:outline-none"
+                onChange={handleChange}
+                value={searchFilters.category}
             >
                 <option value="">-- Selecciona --</option>
                 {drinks.map(category => (

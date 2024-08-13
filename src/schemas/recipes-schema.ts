@@ -11,10 +11,12 @@ export const SearchFiltersSchema = z.object({
     category: z.string()
 })
 
+export const DrinkSchema = z.object({
+    idDrink: z.string(),
+    strDrink: z.string(),
+    strDrinkThumb: z.string(),
+})
+
 export const DrinksSchema = z.object({
-    drinks: z.array(z.object({
-        idDrink: z.string(),
-        strDrink: z.string(),
-        strDrinkThumb: z.string(),
-    }))
+    drinks: z.array(DrinkSchema)
 })

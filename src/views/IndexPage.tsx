@@ -4,7 +4,7 @@ import DrinkCard from "../components/DrinkCard"
 
 const IndexPage = () => {
   const drinks = useAppStore(state => state.drinks)
-  const hasDrinks = useMemo(() => drinks.drinks.length > 0, [drinks])
+  const hasDrinks = useMemo(() => drinks.drinks.length , [drinks])
   return (
     <>
       <h1 className="text-6xl font-extrabold">Bebidas</h1>

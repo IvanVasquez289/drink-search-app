@@ -20,11 +20,10 @@ const Search = () => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        if(searchFilters.ingridient.trim() === '' && searchFilters.category.trim() === '') {
+        if(searchFilters.ingridient.trim() === '' || searchFilters.category.trim() === '') {
             setError(true)
             return
         }
-
         fetchRecipes(searchFilters)
     }
 

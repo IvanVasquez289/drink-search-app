@@ -1,5 +1,5 @@
 import { Dialog, Transition } from '@headlessui/react';
-import { Fragment } from 'react';
+import { Fragment, useMemo } from 'react';
 import { useAppStore } from '../stores/useAppStore';
 import { Recipe } from '../types';
 
@@ -7,6 +7,14 @@ export default function Modal() {
   const modal = useAppStore(state => state.modal)
   const closeModal = useAppStore(state => state.closeModal)
   const selectedRecipe = useAppStore(state => state.recipe)
+
+  const favorites = useAppStore(state => state.favorites)
+  const addToFavorites = useAppStore(state => state.addToFavorites)
+  const removeFromFavorites = useAppStore(state => state.removeFromFavorites)
+
+  const isFavorite = useMemo(() => {
+    return favorites.some((recipe) => recipe.idDrink === selectedRecipe.idDrink)
+  }, [favorites, selectedRecipe])
 
   const renderIngridients = () => {
     const ingridients: JSX.Element[] = [];
@@ -31,6 +39,14 @@ export default function Modal() {
     )
   }
 
+  const handleClick = () => {
+    if(isFavorite) {
+      removeFromFavorites(selectedRecipe)
+    }else{
+      addToFavorites(selectedRecipe)
+    }
+    closeModal()
+  }
   return (
     <>
       <Transition appear show={modal} as={Fragment}>
@@ -83,8 +99,9 @@ export default function Modal() {
                     </button>
                     <button
                       className='w-full bg-orange-500 hover:bg-orange-600 text-white uppercase font-bold rounded p-2'
+                      onClick={handleClick}
                     >
-                      Cerrar
+                      {isFavorite ? 'Quitar de favoritos' : 'Añadir a favoritos'}
                     </button>
                   </div>
                 </Dialog.Panel>

@@ -12,6 +12,8 @@ export default function Modal() {
   const addToFavorites = useAppStore(state => state.addToFavorites)
   const removeFromFavorites = useAppStore(state => state.removeFromFavorites)
 
+  const showNotification = useAppStore(state => state.showNotification)
+
   const isFavorite = useMemo(() => {
     return favorites.some((recipe) => recipe.idDrink === selectedRecipe.idDrink)
   }, [favorites, selectedRecipe])
@@ -42,8 +44,16 @@ export default function Modal() {
   const handleClick = () => {
     if(isFavorite) {
       removeFromFavorites(selectedRecipe)
+      showNotification({
+        message: 'Se elimino de favoritos',
+        error: false
+      })
     }else{
       addToFavorites(selectedRecipe)
+      showNotification({
+        message: 'Se agrego a favoritos',
+        error: false
+      })
     }
     closeModal()
   }

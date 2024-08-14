@@ -1,15 +1,16 @@
 import { useState } from "react"
 import { useAppStore } from "../stores/useAppStore"
-import Alert from "./Alert"
+// import Alert from "./Alert"
 
 const Search = () => {
     const [searchFilters, setSearchFilters] = useState({
         ingridient: '',
         category: ''
     })
-    const [error, setError] = useState(false)
+    // const [error, setError] = useState(false)
     const {drinks} = useAppStore(state => state.categories)
     const fetchRecipes = useAppStore(state => state.fetchRecipes)
+    const showNotification = useAppStore(state => state.showNotification)
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setSearchFilters({
@@ -21,7 +22,10 @@ const Search = () => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         if(searchFilters.ingridient.trim() === '' || searchFilters.category.trim() === '') {
-            setError(true)
+            showNotification({
+                message: 'Todos los campos son obligatorios',
+                error: true
+            })
             return
         }
         fetchRecipes(searchFilters)
@@ -32,7 +36,7 @@ const Search = () => {
         className="md:w-1/2 2xl:w-1/3 bg-orange-400 p-5 rounded-md shadow-xl space-y-6 my-32"
         onSubmit={handleSubmit}
     >
-        {error && <Alert>Por favor llena todos los campos</Alert>}
+        {/* {error && <Alert>Por favor llena todos los campos</Alert>} */}
         <div className="flex flex-col space-y-2">
             <label 
                 htmlFor="ingridient"

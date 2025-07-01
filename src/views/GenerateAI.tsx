@@ -1,6 +1,23 @@
+import { useAppStore } from "../stores/useAppStore"
 
 export default function GenerateAI() {
-  
+  const showNotification = useAppStore(state => state.showNotification)
+  const generateRecipe = useAppStore(state => state.generateRecipe)
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
+    const prompt = formData.get('prompt') as string
+
+    if(prompt.trim() === ""){
+      showNotification({
+        message: "El prompt no puede estar vacio",
+        error: true
+      })
+      return
+    }
+
+    await generateRecipe(prompt)
+  }
   
   return (
     <>
@@ -8,7 +25,7 @@ export default function GenerateAI() {
 
       <div className="max-w-4xl mx-auto">
         <form  
-          onSubmit={() => {}}
+          onSubmit={handleSubmit}
           className='flex flex-col space-y-3 py-10'
         >
           <div className="relative">

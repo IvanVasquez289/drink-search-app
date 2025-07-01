@@ -12,6 +12,7 @@
   "dependencies": {
     "@headlessui/react": "^2.1.2",
     "@heroicons/react": "^2.1.5",
+    "@openrouter/ai-sdk-provider": "^0.7.2",
     "axios": "^1.7.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

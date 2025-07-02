@@ -6,6 +6,7 @@ export default {
        const result = streamText({
            model: openRouter("meta-llama/llama-3.2-1b-instruct:free"),
            prompt,
+           system: "Eres un bartender con 50 años de experiencia"
        })
        return result.textStream
     }
